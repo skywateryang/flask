@@ -6,9 +6,11 @@ app = Flask(__name__)
 login_manager = LoginManager(app)  # 实例化扩展类
 login_manager.login_view = 'login'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.root_path, 'data.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.root_path, 'data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # 关闭对模型修改的监控
-app.config['SECRET_KEY'] = 'dev'
+# app.config['SECRET_KEY'] = 'dev'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.dirname(app.root_path), os.getenv('DATABASE_FILE', 'data.db'))
 
 db = SQLAlchemy(app)
 
